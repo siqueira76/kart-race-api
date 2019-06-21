@@ -1,0 +1,8 @@
+Instruções:
+A aplicação tem o objetivo de apresentar o resultado de uma corrida, onde abase de dados é obtida de um arquivo txt.
+
+Formato do arquivo de base de dados:
+O arquivo da base de dados deve obedecer o formato co arquivo race.txt anexo ao diretorio root do projeto.
+
+Resultado
+O resultado da corrida é apresentado no formato json na chamada do endpoin "http://localhost:8080/races"
