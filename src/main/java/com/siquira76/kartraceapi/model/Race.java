@@ -11,6 +11,7 @@ public class Race {
 	private String nomePiloto;
 	private List<Integer> voltas = new ArrayList<>();
 	private List<LocalTime> tempo = new ArrayList<>();
+	private List<Double> tempoVoltas = new ArrayList<>();
 	private Integer totalVoltas;
 	private Duration tempoCorrida;
 	private Integer posicao;
@@ -52,6 +53,14 @@ public class Race {
 
 	public void setTempo(List<LocalTime> tempo) {
 		this.tempo = tempo;
+	}
+	
+	public List<Double> getTempoVoltas() {
+		return tempoVoltas;
+	}
+	
+	public void setTempoVoltas(List<Double> tempooVoltas) {
+		this.tempoVoltas = tempooVoltas;
 	}
 
 	public Integer getTotalVoltas() {

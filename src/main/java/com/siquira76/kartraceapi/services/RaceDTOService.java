@@ -18,7 +18,7 @@ public class RaceDTOService {
 		List<String> strings = new ArrayList<>();
 		strings = UtilService.fileReader("./race.txt");
 		List<Linha> linhas = UtilService.linhas(strings);
-		List<Race> raceList = UtilService.voltasFactory(linhas);
+		List<Race> raceList = UtilService.setRaceList(linhas);
 		List<RaceDTO> dto = new ArrayList<>();
 		raceList.forEach(v -> dto.add(new RaceDTO(v)));
 		dto.sort(Comparator.comparingInt(v -> ( ((RaceDTO) v).getQtdeVoltasCompletadas()))

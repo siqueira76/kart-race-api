@@ -8,15 +8,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.siquira76.kartraceapi.model.Linha;
 import com.siquira76.kartraceapi.model.Race;
 
 public class UtilService {
-	
 	
 	public static List<String> fileReader(String filePath) {
 		String line = null;
@@ -49,31 +50,37 @@ public class UtilService {
 		return LocalTime.parse(str, dateTimeFormatter);
 	}
 
-	public static Race voltaPilotoFactory(List<Linha> linhas, String piloto) {
-		Race volta = new Race();
+	public static Race raceFactory(List<Linha> linhas, String piloto) {
+		Race race = new Race();
 		for (Linha linha : linhas) {
 			if (linha.getNomePiloto().contains(piloto)) {
-				volta.setCodPiloto(Integer.parseInt(linha.getNumeroPiloto()));
-				volta.setNomePiloto(linha.getNomePiloto());
-				volta.getVoltas().add(linha.getNumeroVolta());
-				volta.getTempo().add(linha.getHora());
+				race.setCodPiloto(Integer.parseInt(linha.getNumeroPiloto()));
+				race.setNomePiloto(linha.getNomePiloto());
+				race.getVoltas().add(linha.getNumeroVolta());
+				race.getTempo().add(linha.getHora());
+				race.getTempoVoltas().add(linha.getVelocidadeMediaVolta());
 			}
 		}
-		volta.setTotalVoltas(volta.getVoltas().size());
-		volta.setTempoCorrida(
-				Duration.between(volta.getTempo().get(0), volta.getTempo().get(volta.getTempo().size() - 1)));
-		return volta;
+		race.setTotalVoltas(race.getVoltas().size());
+		race.setTempoCorrida(
+				Duration.between(race.getTempo().get(0), race.getTempo().get(race.getTempo().size() - 1)));
+		return race;
 	}
 
-	public static List<Race> voltasFactory(List<Linha> linhas) {
+	public static List<Race> setRaceList(List<Linha> linhas) {
 		Set<String> pilotos = new HashSet<>();
-		List<Race> voltaPilotos = new ArrayList<>();
+		List<Race> raceList = new ArrayList<>();
 		linhas.forEach(l -> pilotos.add(l.getNomePiloto()));
 		for (String piloto : pilotos) {
-			voltaPilotos.add(UtilService.voltaPilotoFactory(linhas, piloto));
+			raceList.add(UtilService.raceFactory(linhas, piloto));
 		}
-		voltaPilotos.forEach(v -> v.setPosicao(voltaPilotos.indexOf(v)+1));
-		return voltaPilotos;
+		raceList.forEach(v -> v.setPosicao(raceList.indexOf(v)+1));
+		return raceList;
+	}
+	
+	public static Double mimDouble(List<Double> list) {
+		DoubleSummaryStatistics summary = list.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
+		return summary.getMin();
 	}
 
 }

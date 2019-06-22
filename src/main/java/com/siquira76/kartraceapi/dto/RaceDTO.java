@@ -13,8 +13,7 @@ public class RaceDTO {
 	private String nomePiloto;
 	private Integer qtdeVoltasCompletadas;
 	private LocalTime TempoTotalDeProva;
-	
-	
+	private Double melhorVolta;
 	
 	public RaceDTO() {
 	}
@@ -24,7 +23,8 @@ public class RaceDTO {
 		this.codPiloto = raceObj.getCodPiloto();
 		this.nomePiloto = raceObj.getNomePiloto();
 		this.qtdeVoltasCompletadas = raceObj.getVoltas().size();
-		this.TempoTotalDeProva = UtilService.parse(LocalTime.MIDNIGHT.plus(raceObj.getTempoCorrida()).format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+		this.TempoTotalDeProva = UtilService.parse(LocalTime.MIDNIGHT.plus(raceObj.getTempoCorrida()).format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS")));
+		this.melhorVolta = UtilService.mimDouble(raceObj.getTempoVoltas());
 	}
 
 	public int getPosicaoChegada() {
@@ -65,6 +65,14 @@ public class RaceDTO {
 
 	public void setTempoTotalDeProva(LocalTime tempoTotalDeProva) {
 		TempoTotalDeProva = tempoTotalDeProva;
+	}
+	
+	public Double getMelhorVolta() {
+		return melhorVolta;
+	}
+	
+	public void setMelhorVolta(Double melhorVolta) {
+		this.melhorVolta = melhorVolta;
 	}
 
 }
